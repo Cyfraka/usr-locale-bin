@@ -1,0 +1,10 @@
+#!/bin/sh
+
+#Prints the current brithness level.
+
+light=$(xbacklight -get | cut -c1-2)
+
+icon="🔆"
+
+printf "%s\\n" "$icon""$light"
+

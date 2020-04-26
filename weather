@@ -1,0 +1,19 @@
+#!/bin/sh
+
+weather=$(curl -s wttr.in?format="%c+%t+%C+%h+%p+%w")
+
+if [ $(echo "$weather" | grep -E "(Unknown|curl|HTML)" | wc -l) -gt 0 ]; then
+	echo "WEATHER UNAVAILABLE"
+else
+	echo "$weather" | awk '{print $1$2,$3,$4,$5,$6,$7}'
+fi
+
+
+# The BLOCK_BUTTON bloat for clicking in dwmblocks.
+case $BLOCK_BUTTON in
+    1) setsid "$TERMINAL" -e less -Srf "${XDG_DATA_HOME:-$HOME/.local/share}/weatherreport" & ;;
+#    1) getforecast && showweather ;;
+    2) notify-send "$(curl wttr.in?format="4")" ;;
+    3) notify-send "🌈 Weather module" "\- Left click for full forecast.
+- Middle click to update forecast." ;;
+esac
